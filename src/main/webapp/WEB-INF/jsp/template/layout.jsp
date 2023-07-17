@@ -15,7 +15,9 @@
 		<header class="bg-danger">
 			<jsp:include page="../include/header.jsp"/>
 		</header>
-		<section class="contents bg-info"></section>
+		<section class="contents bg-info">
+			<jsp:include page="../include/signUp.jsp"/>
+		</section>
 	</div>
 </body>
 </html>
