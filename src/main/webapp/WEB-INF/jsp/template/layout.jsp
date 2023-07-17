@@ -16,7 +16,7 @@
 			<jsp:include page="../include/header.jsp"/>
 		</header>
 		<section class="contents bg-info">
-			<jsp:include page="../include/signUp.jsp"/>
+			<jsp:include page="../${view}.jsp"/>
 		</section>
 	</div>
 </body>
