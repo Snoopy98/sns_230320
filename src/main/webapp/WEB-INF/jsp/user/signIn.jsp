@@ -47,10 +47,10 @@ $(document).ready(function(){
 		 let url = $(this).attr("action");
 		 console.log(url);
 		 
-		 $.post(url,params); // request
+		 $.post(url,params)// request
 		 .done(function(data){
 			 if(data.code == 1){
-				 location.href = "/post/post_list_view";
+				 location.href = "/timeline/timeline_view";
 			 }else{
 				 // 실패
 				alert(data.errorMessage);

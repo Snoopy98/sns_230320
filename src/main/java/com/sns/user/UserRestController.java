@@ -20,6 +20,12 @@ import com.sns.user.entity.UserEntity;
 public class UserRestController {
 	@Autowired
 	private UserBO userBO;
+	
+	/**
+	 * 중복확인 APi
+	 * @param loginId
+	 * @return
+	 */
 	@RequestMapping("/is_duplicatedId")
 	public Map<String,Object>isDuplicatedId(
 			@RequestParam("loginId")String loginId){
@@ -37,6 +43,14 @@ public class UserRestController {
 		}
 		return result;
 	}
+	/**
+	 * 회원가입 API
+	 * @param loginId
+	 * @param password
+	 * @param name
+	 * @param email
+	 * @return
+	 */
 	@PostMapping("/sign_up")
 	public Map<String,Object> signUp(
 			@RequestParam("loginId")String loginId,
@@ -59,29 +73,39 @@ public class UserRestController {
 		return result;
 	}
 	
+	
+	/**
+	 * 로그인 API
+	 * @param loginId
+	 * @param password
+	 * @param session
+	 * @return
+	 */
 	@PostMapping("/sign_in")
-	public Map<String,Object> signIn(
-			@RequestParam("loginId") String loginId,
-			@RequestParam("password") String password,
-			HttpSession session){
-		
-		// password 해싱 
+	public Map<String, Object> signIn(@RequestParam("loginId") String loginId,
+			@RequestParam("password") String password, HttpSession session) {
+
+		// password hashing
 		String hashedPassword = EncryptUtils.md5(password);
-		
-		// 로그인 아이디 비밀번호로 디비에서 찾아오기
+
+		// loginId, hashedPassword로 UserEntity => null or 채워져있음
 		UserEntity userEntity = userBO.getUserEntityByLoginIdPassword(loginId, hashedPassword);
-		
-		Map<String,Object> result = new HashMap<>();
-		if(userEntity != null) {
-			//로그인 처리
+
+		Map<String, Object> result = new HashMap<>();
+		if (userEntity != null) {
+			// 로그인 처리
 			session.setAttribute("userId", userEntity.getId());
 			session.setAttribute("userLoginId", userEntity.getLoginId());
 			session.setAttribute("userName", userEntity.getName());
-		}else {
-			// 로그인 실패
+
+			result.put("code", 1);
+			result.put("result", "성공");
+		} else {
+			// 로그인 불가
 			result.put("code", 500);
-			result.put("errorMessage", "존재하지 않는 사용자 입니다.");
+			result.put("errorMessage", "존재하지 않는 사용자입니다.");
 		}
+
 		return result;
 	}
 }
