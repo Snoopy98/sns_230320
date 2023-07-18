@@ -28,4 +28,8 @@ public class UserBO {
 				);
 		return userEntity.getId(); //pk 만 리턴
 	}
+	
+	public UserEntity getUserEntityByLoginIdPassword(String loginId, String password) {
+		return userRepository.findByLoginIdAndPassword(loginId, password);
+	}
 }

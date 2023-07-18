@@ -27,3 +27,35 @@
 		</form>
 	</div>
 </div>
+<script>
+$(document).ready(function(){
+	$('#loginForm').on("submit",function(e){
+		e.preventDefault();
+		 let loginId = $('#loginId').val().trim();
+		 let password = $('#password').val();
+		 
+		 if(!loginId){
+			 alert("아이디를 입력하세요.");
+			 return false;
+		 }
+		 if(!password){
+			 alert("비밀번호를 입력하세요.");
+			 return false;
+		 }
+		 let params = $(this).serialize();
+		 console.log(params);
+		 let url = $(this).attr("action");
+		 console.log(url);
+		 
+		 $.post(url,params); // request
+		 .done(function(data){
+			 if(data.code == 1){
+				 location.href = "/post/post_list_view";
+			 }else{
+				 // 실패
+				alert(data.errorMessage);
+			 }
+		 });// ajax
+	});// form
+}); // ready
+</script>
